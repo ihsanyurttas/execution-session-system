@@ -1,2 +1,0 @@
-## What we did
-- bootstrap
