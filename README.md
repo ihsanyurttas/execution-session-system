@@ -202,6 +202,18 @@ Early-stage system.
 
 Actively evolving.
 
+## Installation
+
+This system is tool-agnostic.
+
+You can implement it manually, or use the provided helper script.
+
+### Option 1 — Use helper script
+
+```bash
+bash scripts/install-session-system.sh
+```
+
 ⸻
 
 License
