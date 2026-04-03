@@ -49,6 +49,30 @@ That leads to:
 
 This system treats context as something that must be actively preserved.
 
+### Cost and performance impact
+
+In agent-based systems, lost context has a direct cost.
+
+When context is missing, agents:
+
+- re-read files
+- re-analyze the same problem
+- repeat reasoning steps
+
+This leads to:
+
+- higher token usage
+- longer execution time
+- increased cost per task
+
+By preserving session state, this system reduces redundant work.
+
+Better context means:
+
+- fewer tokens
+- faster execution
+- more predictable cost
+
 ---
 
 ## The model
@@ -83,6 +107,64 @@ Context is stored in:
 The agent does not rely on memory.
 
 It reconstructs state from these files every time.
+
+## Practical implementation (Claude Code)
+
+This system can be implemented using Claude Code primitives.
+
+### 1. Skills (session commands)
+
+Each session action is implemented as a skill:
+
+- `/start-session`
+- `/status-session`
+- `/record-session`
+- `/end-session`
+- `/recover-session`
+
+These define the execution model.
+
+### 2. Hooks (lifecycle automation)
+
+Session lifecycle can be partially automated using hooks:
+
+- session start → initialization
+- session end → logging and checkpointing
+
+Configured via:
+
+- `~/.claude/settings.json`
+- `~/.claude/hooks/`
+
+These hooks ensure that session boundaries are not implicit — they are enforced.
+
+### 3. Git as execution history
+
+Git is used as part of the execution system — not just version control.
+
+Each meaningful checkpoint can be captured as a commit:
+
+- `/record-session` → optional checkpoint commit
+- `/end-session` → clean handoff commit
+
+This creates:
+
+- a timeline of decisions
+- traceable execution steps
+- recoverable system state
+
+Instead of relying on memory, the system produces an external, verifiable history.
+
+### 4. Project state
+
+Context is stored explicitly in project files:
+
+```text
+.claude/
+  project-context.md
+  session-summary.md
+  next-steps.md
+```
 
 ⸻
 
